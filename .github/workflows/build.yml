@@ -2,6 +2,10 @@ name: Build Linux Desktop
 
 on:
   workflow_dispatch:
+  push:
+        branches:
+            - master
+            - ModdedGamers-GH-Actions
 
 permissions:
   contents: read
