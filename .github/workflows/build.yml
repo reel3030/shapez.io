@@ -1,0 +1,48 @@
+name: Install Dependencies Artifact
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  install:
+    name: Install dependencies
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16.x
+
+      - name: Install Yarn dependencies
+        run: |
+          yarn
+          cd gulp/
+          yarn
+          cd ..
+
+      - name: Upload node_modules
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: shapez-node-modules
+          path: node_modules/
+
+      - name: Wait 3 minutes
+        run: sleep 180
+
+      - name: Delete artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARTIFACT_ID: ${{ steps.upload.outputs.artifact-id }}
+        run: |
+          gh api \
+            --method DELETE \
+            "/repos/${{ github.repository }}/actions/artifacts/${ARTIFACT_ID}"
