@@ -34,6 +34,11 @@ jobs:
           cd gulp/
           yarn
           cd ..
+      - name: Create local config
+        run: |
+          cd gulp
+          yarn gulp localConfig.findOrCreate
+          cd ..
 
       - name: Build Linux desktop app
         run: |
