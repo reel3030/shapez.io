@@ -30,6 +30,7 @@ jobs:
 
       - name: Build Linux desktop app
         run: |
+          cd gulp
           yarn gulp bundle.standalone-steam.all
 
       - name: Upload Linux build
