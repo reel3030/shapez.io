@@ -1,4 +1,4 @@
-name: Install Dependencies Artifact
+name: Build Linux Desktop
 
 on:
   workflow_dispatch:
@@ -8,8 +8,8 @@ permissions:
   actions: write
 
 jobs:
-  install:
-    name: Install dependencies
+  build:
+    name: Build shapez Linux x64
     runs-on: ubuntu-latest
 
     steps:
@@ -28,12 +28,16 @@ jobs:
           yarn
           cd ..
 
-      - name: Upload node_modules
+      - name: Build Linux desktop app
+        run: |
+          yarn gulp bundle.standalone-steam.all
+
+      - name: Upload Linux build
         id: upload
         uses: actions/upload-artifact@v4
         with:
-          name: shapez-node-modules
-          path: node_modules/
+          name: shapez-linux-x64
+          path: build_output/
 
       - name: Wait 3 minutes
         run: sleep 180
