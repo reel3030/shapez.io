@@ -38,7 +38,7 @@ jobs:
           cd gulp/
           yarn
           cd ../electron/
-          yarn
+          yarn --ignore-optional
           cd ..
       - name: Create local config
         run: |
